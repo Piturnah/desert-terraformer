@@ -80,6 +80,7 @@ public class TerrainManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        float waterRatio = (GameController.water + GameController.startBoost) / GameController.waterCap;
         for (int y = 0; y < mapSize.y; y++)
         {
             for (int x = 0; x < mapSize.x; x++)
@@ -90,7 +91,7 @@ public class TerrainManager : MonoBehaviour
                 bool spawningRock = perlinValue <= rockRatio;
                 if (spawningRock)
                 {
-                    if (perlinValue >= 1 - (GameController.water / GameController.waterCap))
+                    if (perlinValue >= 1 - (waterRatio))
                     {
                         spritePool = rockTiles;
                     }
@@ -101,9 +102,9 @@ public class TerrainManager : MonoBehaviour
                 }
                 else
                 {
-                    if (perlinValue >= 1 - (GameController.water / GameController.waterCap))
+                    if (perlinValue >= 1 - (waterRatio))
                     {
-                        if (perlinValue >= 1 - (GameController.water / GameController.waterCap / 2))
+                        if (perlinValue >= 1 - (waterRatio / 2))
                         {
                             spritePool = waterTiles;
                         }

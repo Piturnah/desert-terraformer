@@ -7,9 +7,12 @@ public class UIController : MonoBehaviour
 {
     [SerializeField]
     Text waterText;
+    [SerializeField]
+    Text wpsText;
 
     private void Update()
     {
-        waterText.text = GameController.water.ToString("0000");
+        waterText.text = Mathf.RoundToInt(GameController.water).ToString("00000");
+        wpsText.text = "+" + GameController.waterPerSecond.ToString();
     }
 }
