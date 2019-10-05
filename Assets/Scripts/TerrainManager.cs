@@ -6,8 +6,6 @@ using System.Linq;
 public class TerrainManager : MonoBehaviour
 {
     [SerializeField]
-    Sprite[] terrainTiles;
-    [SerializeField]
     Sprite[] drockTiles;
     [SerializeField]
     Sprite[] grassTiles;
