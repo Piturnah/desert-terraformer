@@ -5,33 +5,28 @@ using System.Linq;
 
 public class TerrainManager : MonoBehaviour
 {
-    [SerializeField]
-    Sprite[] drockTiles;
-    [SerializeField]
-    Sprite[] grassTiles;
-    [SerializeField]
-    Sprite[] rockTiles;
-    [SerializeField]
-    Sprite[] sandTiles;
-    [SerializeField]
-    Sprite[] waterTiles;
+    public Sprite[] drockTiles;
+    public Sprite[] grassTiles;
+    public Sprite[] rockTiles;
+    public Sprite[] sandTiles;
+    public Sprite[] waterTiles;
 
-    float perlinScale = 5;
-    int perlinOffsetX;
-    int perlinOffsetY;
+    public float perlinScale = 5;
+    public int perlinOffsetX;
+    public int perlinOffsetY;
 
     [SerializeField]
     GameObject tileObj;
 
-    float rockRatio = .3f;
-    Vector2 mapSize = new Vector2(90, 90);
+    public float rockRatio = .3f;
+    public Vector2 mapSize = new Vector2(90, 90);
 
     private void Start()
     {
         perlinOffsetX = Random.Range(-300, 300);
         perlinOffsetY = Random.Range(-300, 300);
 
-        GameController.updateTerrain += UpdateTerrain;
+        //GameController.updateTerrain += UpdateTerrain;
 
         GenerateTerrain();
     }
@@ -50,15 +45,18 @@ public class TerrainManager : MonoBehaviour
             for (int x = 0; x < mapSize.x; x++)
             {
                 Sprite[] spritePool;
+                string newState;
 
                 bool spawningRock = Mathf.PerlinNoise((float)x / mapSize.x * perlinScale + perlinOffsetX, (float)y / mapSize.y * perlinScale + perlinOffsetY) <= rockRatio;
                 if (spawningRock)
                 {
                     spritePool = drockTiles;
+                    newState = "drock";
                 }
                 else
                 {
                     spritePool = sandTiles;
+                    newState = "sand";
                 }
                 int tileIndex = Random.Range(0, spritePool.Length - 1);
 
@@ -67,6 +65,12 @@ public class TerrainManager : MonoBehaviour
                     GameObject newTile = Instantiate(tileObj, new Vector2(x * 2, y * 2), Quaternion.identity);
                     SpriteRenderer tileSprite = newTile.GetComponent<SpriteRenderer>();
                     tileSprite.sprite = spritePool[(tileIndex + i) % spritePool.Length];
+
+                    Tile tileScript = newTile.GetComponent<Tile>();
+                    if (tileScript != null)
+                    {
+                        tileScript.state = newState;
+                    }
 
                     newTile.transform.parent = transform;
                 }

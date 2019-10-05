@@ -9,9 +9,9 @@ public class GameController : MonoBehaviour
     public static float waterCap = 50000;
     public static float startBoost;
 
-    public static float waterPerSecond = 15;
+    public static float waterPerSecond = 150;
 
-    float timeBtwUpdates = 3;
+    float timeBtwUpdates = .1f;
     float previousUpdateTime;
     float previousUpdateRatio;
     public static event Action updateTerrain;
@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
         if (Time.time >= previousUpdateTime + timeBtwUpdates)
         {
             previousUpdateTime = Time.time;
-            if ((water + startBoost) / waterCap > previousUpdateRatio + .02f)
+            if ((water + startBoost) / waterCap > previousUpdateRatio + .005f)
             {
                 previousUpdateRatio = water / waterCap;
                 if (updateTerrain != null)
