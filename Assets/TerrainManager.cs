@@ -18,14 +18,21 @@ public class TerrainManager : MonoBehaviour
     [SerializeField]
     Sprite[] waterTiles;
 
+    float perlinScale = 5;
+    int perlinOffsetX;
+    int perlinOffsetY;
+
     [SerializeField]
     GameObject tileObj;
 
-    float rockRatio = .2f;
-    Vector2 mapSize = new Vector2(30, 60);
+    float rockRatio = .3f;
+    Vector2 mapSize = new Vector2(90, 180);
 
     private void Start()
     {
+        perlinOffsetX = Random.Range(-300, 300);
+        perlinOffsetY = Random.Range(-300, 300);
+
         GenerateTerrain();
     }
 
@@ -37,7 +44,7 @@ public class TerrainManager : MonoBehaviour
             {
                 Sprite[] spritePool;
 
-                bool spawningRock = Random.Range(0f, 1f) <= rockRatio;
+                bool spawningRock = Mathf.PerlinNoise((float)x / mapSize.x * perlinScale + perlinOffsetX, (float)y / mapSize.y * perlinScale + perlinOffsetY) <= rockRatio;
                 if (spawningRock)
                 {
                     spritePool = drockTiles;
@@ -48,13 +55,14 @@ public class TerrainManager : MonoBehaviour
                 }
                 int tileIndex = Random.Range(0, spritePool.Length - 1);
 
-                GameObject bottomTile = Instantiate(tileObj, new Vector2(x * 2, y), Quaternion.identity);
-                SpriteRenderer bottomTileSprite = bottomTile.GetComponent<SpriteRenderer>();
-                bottomTileSprite.sprite = spritePool[(tileIndex + 1) % spritePool.Length];
+                for (int i = 0; i < 2; i ++)
+                {
+                    GameObject newTile = Instantiate(tileObj, new Vector2(x * 2, y + i), Quaternion.identity);
+                    SpriteRenderer tileSprite = newTile.GetComponent<SpriteRenderer>();
+                    tileSprite.sprite = spritePool[(tileIndex + i) % spritePool.Length];
 
-                GameObject topTile = Instantiate(tileObj, new Vector2(x * 2, y + 1), Quaternion.identity);
-                SpriteRenderer topTileSprite = topTile.GetComponent<SpriteRenderer>();
-                topTileSprite.sprite = spritePool[tileIndex % spritePool.Length];
+                    newTile.transform.parent = transform;
+                }
             }
         }
     }
