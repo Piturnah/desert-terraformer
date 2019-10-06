@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public static float water;
     public static float waterCap = 50000;
     public static float startBoost = 1500;
+    public static float waterMultiplier;
 
     public static float waterPerSecond = 0;
 
@@ -25,7 +26,8 @@ public class GameController : MonoBehaviour
         DetectInput();
         CheckWaterRatio();
 
-        water += waterPerSecond * Time.deltaTime;
+        float waterPerSecondFixed = waterPerSecond * waterMultiplier;
+        water += waterPerSecondFixed * Time.deltaTime;
     }
 
     void DetectInput()
