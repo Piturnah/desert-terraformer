@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -13,7 +14,19 @@ public class UIController : MonoBehaviour
     [SerializeField]
     Transform scrollContent;
 
+    [SerializeField]
+    Transform menu;
+
     float multiplier = 1.07f;
+
+    public void Home()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
     private void Start()
     {
@@ -21,6 +34,11 @@ public class UIController : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            menu.gameObject.SetActive(!menu.gameObject.activeInHierarchy);
+        }
+
         waterText.text = Mathf.RoundToInt(GameController.water).ToString("00,000");
 
         string wps = (GameController.waterPerSecond < 1000) ? GameController.waterPerSecond.ToString() : (GameController.waterPerSecond / 1000).ToString("F2") + "K";

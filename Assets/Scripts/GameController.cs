@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         startBoost = waterCap * 0.06f;
+
+        water = 0;
+        waterPerSecond = 0;
     }
     private void Update()
     {

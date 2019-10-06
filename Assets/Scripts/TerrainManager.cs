@@ -28,13 +28,6 @@ public class TerrainManager : MonoBehaviour
 
         GenerateTerrain();
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameController.water = Random.Range(1, 5000);
-        }
-    }
 
     void GenerateTerrain()
     {

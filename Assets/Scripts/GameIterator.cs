@@ -10,12 +10,12 @@ public class GameIterator : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
-        if (FindObjectsOfType(GetType()).Length > 1)
-        {
-            Destroy(gameObject);
-        }
+        //if (FindObjectsOfType(GetType()).Length > 1)
+        //{
+        //   Destroy(gameObject);
+        //}
 
         newIteration(0f);
     }
