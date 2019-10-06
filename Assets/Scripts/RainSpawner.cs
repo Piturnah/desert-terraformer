@@ -11,10 +11,10 @@ public class RainSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") || GameController.water > lastWaterLevel + 100)
+        if (Input.GetButtonDown("Fire1"))
         {
             lastWaterLevel = GameController.water;
-            Instantiate(droplet, new Vector2(transform.position.x + Random.Range(-90, 90), transform.position.y), Quaternion.identity);
+            Instantiate(droplet, Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward, Quaternion.identity);
         }
     }
 }
