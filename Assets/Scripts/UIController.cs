@@ -21,7 +21,9 @@ public class UIController : MonoBehaviour
     }
     private void Update()
     {
-        waterText.text = Mathf.RoundToInt(GameController.water).ToString("00000");
+        waterText.text = Mathf.RoundToInt(GameController.water).ToString("00,000");
+
+        string wps = (GameController.waterPerSecond < 1000) ? GameController.waterPerSecond.ToString() : (GameController.waterPerSecond / 1000).ToString("F2") + "K";
         wpsText.text = "+" + GameController.waterPerSecond.ToString();
 
         foreach (Transform child in scrollContent)
@@ -121,8 +123,13 @@ public class UIController : MonoBehaviour
 
         if (newPurchaseTransform != null)
         {
-            newPurchaseTransform.Find("Current bonus").GetComponent<Text>().text = "+" + (values[0] * values[2]).ToString() + " WPS";
-            newPurchaseTransform.Find("Button").Find("Price").GetComponent<Text>().text = (Mathf.RoundToInt(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2])))).ToString();
+            string num = (values[0] < 1000) ? (values[0] * values[2]).ToString() : ((float)values[0] / 1000).ToString("F1") + "K";
+            newPurchaseTransform.Find("Current bonus").GetComponent<Text>().text = "+" + num + " WPS";
+
+            int numInt = (Mathf.RoundToInt(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))));
+            num = (numInt < 1000) ? (Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))).ToString() :
+                ((float)(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))) / 1000).ToString("F1") + "K";
+            newPurchaseTransform.Find("Button").Find("Price").GetComponent<Text>().text = num;
         }
     }
     void SetDisplayValues()
@@ -167,9 +174,15 @@ public class UIController : MonoBehaviour
 
             if (newPurchaseTransform != null)
             {
-                newPurchaseTransform.Find("Bonus").GetComponent<Text>().text = "+" + values[0].ToString();
-                newPurchaseTransform.Find("Current bonus").GetComponent<Text>().text = "+" + (values[0] * values[2]).ToString() + " WPS";
-                newPurchaseTransform.Find("Button").Find("Price").GetComponent<Text>().text = (Mathf.RoundToInt(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2])))).ToString();
+                newPurchaseTransform.Find("Bonus").GetComponent<Text>().text = "+" + ((values[0]<1000)? values[0].ToString(): ((float)values[0]/1000).ToString("F2")+"K");
+
+                string num = (values[0] < 1000) ? (values[0] * values[2]).ToString() : ((float)values[0] / 1000).ToString("F2") + "K";
+                newPurchaseTransform.Find("Current bonus").GetComponent<Text>().text = "+" + num + " WPS";
+
+                int numInt = (Mathf.RoundToInt(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))));
+                num = (numInt < 1000) ? (Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))).ToString() :
+                    ((float)(Mathf.RoundToInt(values[1] * Mathf.Pow(multiplier, values[2]))) / 1000).ToString("F2") + "K";
+                newPurchaseTransform.Find("Button").Find("Price").GetComponent<Text>().text = num;
 
                 newPurchaseTransform.gameObject.SetActive(false);
             }
@@ -180,10 +193,10 @@ public class UIController : MonoBehaviour
 public static class ItemInfo
 {
     public static int[] bucket = { 1, 30, 0 };
-    public static int[] raincloud = { 3, 70, 0 };
+    public static int[] raincloud = { 3, 90, 0 };
     public static int[] fremen = { 6, 130, 0 };
-    public static int[] windtrap = { 15, 310, 0 };
-    public static int[] aqueducts = { 40, 810, 0 };
-    public static int[] stormcloud = { 120, 2300, 0 };
-    public static int[] sandworm = { 300, 10000, 0 };
+    public static int[] windtrap = { 15, 700, 0 };
+    public static int[] aqueducts = { 40, 3000, 0 };
+    public static int[] stormcloud = { 120, 10000, 0 };
+    public static int[] sandworm = { 300, 20000, 0 };
 }

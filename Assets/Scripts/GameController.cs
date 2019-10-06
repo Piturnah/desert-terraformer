@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
 {
     public static float water;
     public static float waterCap = 50000;
-    public static float startBoost;
+    public static float startBoost = 1500;
 
     public static float waterPerSecond = 0;
 
