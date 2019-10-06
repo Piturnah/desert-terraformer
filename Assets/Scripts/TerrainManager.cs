@@ -26,8 +26,6 @@ public class TerrainManager : MonoBehaviour
         perlinOffsetX = Random.Range(-300, 300);
         perlinOffsetY = Random.Range(-300, 300);
 
-        //GameController.updateTerrain += UpdateTerrain;
-
         GenerateTerrain();
     }
     private void Update()
@@ -71,64 +69,6 @@ public class TerrainManager : MonoBehaviour
                     {
                         tileScript.state = newState;
                     }
-
-                    newTile.transform.parent = transform;
-                }
-            }
-        }
-    }
-
-    void UpdateTerrain()
-    {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
-        float waterRatio = (GameController.water + GameController.startBoost) / GameController.waterCap;
-        for (int y = 0; y < mapSize.y; y++)
-        {
-            for (int x = 0; x < mapSize.x; x++)
-            {
-                Sprite[] spritePool;
-                float perlinValue = Mathf.PerlinNoise((float)x / mapSize.x * perlinScale + perlinOffsetX, (float)y / mapSize.y * perlinScale + perlinOffsetY);
-
-                bool spawningRock = perlinValue <= rockRatio;
-                if (spawningRock)
-                {
-                    if (perlinValue >= 1 - (waterRatio))
-                    {
-                        spritePool = rockTiles;
-                    }
-                    else
-                    {
-                        spritePool = drockTiles;
-                    }
-                }
-                else
-                {
-                    if (perlinValue >= 1 - (waterRatio))
-                    {
-                        if (perlinValue >= 1 - (waterRatio / 2))
-                        {
-                            spritePool = waterTiles;
-                        }
-                        else
-                        {
-                            spritePool = grassTiles;
-                        }
-                    }
-                    else
-                    {
-                        spritePool = sandTiles;
-                    }
-                }
-                int tileIndex = Random.Range(0, spritePool.Length - 1);
-
-                for (int i = 0; i < 1; i++)
-                {
-                    GameObject newTile = Instantiate(tileObj, new Vector2(x * 2, y * 2), Quaternion.identity);
-                    SpriteRenderer tileSprite = newTile.GetComponent<SpriteRenderer>();
-                    tileSprite.sprite = spritePool[(tileIndex + i) % spritePool.Length];
 
                     newTile.transform.parent = transform;
                 }
