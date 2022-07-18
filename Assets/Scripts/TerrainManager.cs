@@ -20,7 +20,7 @@ public class TerrainManager : MonoBehaviour
 
     public static int octaves = 5;
     public static float lacunarity = 2;
-    public static float persistence = 0.3f;
+    public static float persistence = 0.4f;
 
     public float rockRatio = .3f;
     public static Vector2 mapSize = new Vector2(90, 90);

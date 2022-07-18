@@ -18,8 +18,33 @@ public class Tile : MonoBehaviour
     {
         float waterRatio = (float)GameController.waterRatio;
 
-        // Determine the required state
-        float perlinValue = TerrainManager.GetPerlinNoiseAtPoint(transform.position.x / 2, transform.position.y / 2);
+        // Determine the required state and position
+        float perlinValue = TerrainManager.GetPerlinNoiseAtPoint(
+            Mathf.Round((transform.position.x + GameController.worldPos.x) / 2),
+            Mathf.Round((transform.position.y + GameController.worldPos.y) / 2)
+        );
+
+        /*float perlinValue = TerrainManager.GetPerlinNoiseAtPoint(
+            (GameController.worldPos.x - (GameController.worldPos.x) * GameController.zoomLevel) / 2 +
+            Mathf.Round(
+                (
+                    (transform.position.x + GameController.worldPos.x - 90)
+                    * GameController.zoomLevel
+                )
+                / 2 / GameController.zoomLevel
+            ) * GameController.zoomLevel,
+
+            (GameController.worldPos.y - (GameController.worldPos.y) * GameController.zoomLevel) / 2 +
+            Mathf.Round(
+                (
+                    (transform.position.y + GameController.worldPos.y - 90)
+                    * GameController.zoomLevel
+                )
+                / 2 / GameController.zoomLevel
+            ) * GameController.zoomLevel
+        );
+        */
+
         string newState;
         bool spawningRock = perlinValue <= parentManager.rockRatio;
         if (spawningRock)

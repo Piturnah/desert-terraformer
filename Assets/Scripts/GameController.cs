@@ -5,6 +5,11 @@ using System;
 
 public class GameController : MonoBehaviour
 {
+    public float movementSpeed;
+    public static Vector2 worldPos;
+    //public float zoomSpeed;
+    //public static float zoomLevel = 1;
+
     public static float water;
     public static float waterCap = 1600;
     public static float startBoost = 1500;
@@ -12,7 +17,7 @@ public class GameController : MonoBehaviour
 
     public static float waterPerSecond = 0;
 
-    float timeBtwUpdates = .1f;
+    float timeBtwUpdates = .03f;
     float previousUpdateTime;
     
     public static double waterRatio;
@@ -22,8 +27,6 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        waterRatio = Mathf.Clamp01(1 - TerrainManager.max_noise - 0.001f);// - 0.00001;
-
         startBoost = waterCap * 0.06f;
 
         water = 0;
@@ -45,26 +48,28 @@ public class GameController : MonoBehaviour
             water += 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            waterPerSecond += 20;
-        }
+        Vector2 movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        worldPos += movementDirection * movementSpeed * Time.deltaTime; // * zoomLevel
+
+        //zoomLevel -= Input.GetAxisRaw("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
+        //zoomLevel = Mathf.Clamp(zoomLevel, 0.0001f, float.MaxValue);
+
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    zoomLevel = 1;
+        //}
     }
     void CheckWaterRatio()
     {
         waterInterpolationFactor = waterPerSecond / (waterCap * 50);
         waterRatio += waterInterpolationFactor * Time.deltaTime;
-        Debug.Log(waterRatio);
 
         if (Time.time >= previousUpdateTime + timeBtwUpdates)
         {
             previousUpdateTime = Time.time;
             
-            if (waterRatio > previousUpdateRatio + .005f)
-            {
-                previousUpdateRatio = waterRatio;
-                updateTerrain?.Invoke();
-            }
+            previousUpdateRatio = waterRatio;
+            updateTerrain?.Invoke();
         }
     }
 }

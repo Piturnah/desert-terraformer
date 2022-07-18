@@ -4858,6 +4858,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed86c9275eca4b4b8fe329e2cb7d482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 50
+  zoomSpeed: 20
   waterInterpolationFactor: 0.02
 --- !u!4 &1360816043
 Transform:
