@@ -11,15 +11,19 @@ public class TerrainManager : MonoBehaviour
     public Sprite[] sandTiles;
     public Sprite[] waterTiles;
 
-    public float perlinScale = 5;
-    public int perlinOffsetX;
-    public int perlinOffsetY;
+    public static float perlinScale = 5;
+    public static int perlinOffsetX;
+    public static int perlinOffsetY;
 
     [SerializeField]
     GameObject tileObj;
 
+    public static int octaves = 5;
+    public static float lacunarity = 2;
+    public static float persistence = 0.3f;
+
     public float rockRatio = .3f;
-    public Vector2 mapSize = new Vector2(90, 90);
+    public static Vector2 mapSize = new Vector2(90, 90);
 
     private void Start()
     {
@@ -27,6 +31,23 @@ public class TerrainManager : MonoBehaviour
         perlinOffsetY = Random.Range(-300, 300);
 
         GenerateTerrain();
+    }
+
+    public static float GetPerlinNoiseAtPoint(float x, float y)
+    {
+        float noiseValue = 0;
+
+        for (int octave = 0; octave < octaves; octave++)
+        {
+            noiseValue
+                += (Mathf.PerlinNoise(
+                    x / mapSize.x * perlinScale * Mathf.Pow(lacunarity, octave) + perlinOffsetX,
+                    y / mapSize.y * perlinScale * Mathf.Pow(lacunarity, octave) + perlinOffsetY
+                ) - 0.5f) * Mathf.Pow(persistence, octave);
+        }
+
+        noiseValue += 0.5f;
+        return noiseValue;
     }
 
     void GenerateTerrain()
@@ -38,7 +59,9 @@ public class TerrainManager : MonoBehaviour
                 Sprite[] spritePool;
                 string newState;
 
-                bool spawningRock = Mathf.PerlinNoise((float)x / mapSize.x * perlinScale + perlinOffsetX, (float)y / mapSize.y * perlinScale + perlinOffsetY) <= rockRatio;
+                float noiseValue = GetPerlinNoiseAtPoint(x, y);
+
+                bool spawningRock = noiseValue <= rockRatio;
                 if (spawningRock)
                 {
                     spritePool = drockTiles;
