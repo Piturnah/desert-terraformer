@@ -4466,12 +4466,8 @@ MonoBehaviour:
   - {fileID: 6532709478578541829, guid: ebac2c0a9c2885b43a767275aca6c4c1, type: 3}
   - {fileID: -9208571923464456677, guid: ebac2c0a9c2885b43a767275aca6c4c1, type: 3}
   - {fileID: -1100723998997996794, guid: ebac2c0a9c2885b43a767275aca6c4c1, type: 3}
-  perlinScale: 5
-  perlinOffsetX: 0
-  perlinOffsetY: 0
   tileObj: {fileID: 4478794822856573941, guid: 79e927c33f9b08e469fa9ee658a285a9, type: 3}
   rockRatio: 0.3
-  mapSize: {x: 90, y: 90}
 --- !u!4 &1133050898
 Transform:
   m_ObjectHideFlags: 0
@@ -4862,6 +4858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed86c9275eca4b4b8fe329e2cb7d482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterInterpolationFactor: 0.02
 --- !u!4 &1360816043
 Transform:
   m_ObjectHideFlags: 0

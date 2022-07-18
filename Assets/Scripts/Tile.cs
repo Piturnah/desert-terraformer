@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
 
     void CheckCurrentState()
     {
-        float waterRatio = (GameController.water + GameController.startBoost) / GameController.waterCap;
+        float waterRatio = (float)GameController.waterRatio;
 
         // Determine the required state
         float perlinValue = TerrainManager.GetPerlinNoiseAtPoint(transform.position.x / 2, transform.position.y / 2);

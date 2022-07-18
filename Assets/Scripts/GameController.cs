@@ -6,7 +6,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public static float water;
-    public static float waterCap = 50000;
+    public static float waterCap = 1600;
     public static float startBoost = 1500;
     public static float waterMultiplier;
 
@@ -14,11 +14,16 @@ public class GameController : MonoBehaviour
 
     float timeBtwUpdates = .1f;
     float previousUpdateTime;
-    float previousUpdateRatio;
+    
+    public static double waterRatio;
+    public double waterInterpolationFactor;
+    double previousUpdateRatio;
     public static event Action updateTerrain;
 
     private void Start()
     {
+        waterRatio = Mathf.Clamp01(1 - TerrainManager.max_noise - 0.001f);// - 0.00001;
+
         startBoost = waterCap * 0.06f;
 
         water = 0;
@@ -39,19 +44,26 @@ public class GameController : MonoBehaviour
         {
             water += 1;
         }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            waterPerSecond += 20;
+        }
     }
     void CheckWaterRatio()
     {
+        waterInterpolationFactor = waterPerSecond / (waterCap * 50);
+        waterRatio += waterInterpolationFactor * Time.deltaTime;
+        Debug.Log(waterRatio);
+
         if (Time.time >= previousUpdateTime + timeBtwUpdates)
         {
             previousUpdateTime = Time.time;
-            if ((water) / waterCap > previousUpdateRatio + .005f)
+            
+            if (waterRatio > previousUpdateRatio + .005f)
             {
-                previousUpdateRatio = water / waterCap;
-                if (updateTerrain != null)
-                {
-                    updateTerrain();
-                }
+                previousUpdateRatio = waterRatio;
+                updateTerrain?.Invoke();
             }
         }
     }

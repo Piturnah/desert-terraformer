@@ -25,6 +25,8 @@ public class TerrainManager : MonoBehaviour
     public float rockRatio = .3f;
     public static Vector2 mapSize = new Vector2(90, 90);
 
+    public static float max_noise;
+
     private void Start()
     {
         perlinOffsetX = Random.Range(-300, 300);
@@ -60,6 +62,10 @@ public class TerrainManager : MonoBehaviour
                 string newState;
 
                 float noiseValue = GetPerlinNoiseAtPoint(x, y);
+                if (noiseValue > max_noise)
+                {
+                    max_noise = noiseValue;
+                }
 
                 bool spawningRock = noiseValue <= rockRatio;
                 if (spawningRock)
