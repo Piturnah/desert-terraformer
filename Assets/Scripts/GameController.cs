@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 
     public static float waterPerSecond = 0;
 
-    float timeBtwUpdates = .03f;
+    float timeBtwUpdates = .05f;
     float previousUpdateTime;
     
     public static double waterRatio;
